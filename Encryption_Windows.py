@@ -27,9 +27,9 @@ class Encryptor:
             plaintext = fo.read()
         enc = self.encrypt(plaintext, self.key)
         with open(file_name + ".enc", 'wb') as fo:
-            fo.write(enc)
-            print("*****************************\nEncryption done for file: "+str(file_name))
+            fo.write(enc)   
         os.remove(file_name)
+        print("*****************************\nEncryption done for file: "+str(file_name))
 
     def decrypt(self, ciphertext, key):
         iv = ciphertext[:AES.block_size]
@@ -44,8 +44,8 @@ class Encryptor:
         dec = self.decrypt(ciphertext, self.key)
         with open(file_name[:-4], 'wb') as fo:
             fo.write(dec)
-        print("*****************************\nDecryption done for file: "+str(file_name))
         os.remove(file_name)
+        print("*****************************\nDecryption done for file: "+str(file_name))
 
     def getAllFiles(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -66,7 +66,7 @@ class Encryptor:
         for file_name in dirs:
             self.decrypt_file(file_name)
       
-key = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest()
+key = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest() 
 enc = Encryptor( str.encode(key[0:32]))
 clear = lambda: os.system('cls')
 
