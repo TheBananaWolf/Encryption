@@ -66,8 +66,9 @@ class Encryptor:
         for file_name in dirs:
             self.decrypt_file(file_name)
       
-key = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest() 
-enc = Encryptor( str.encode(key[0:32]))
+keys = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest() 
+key = bytes.fromhex(keys)
+enc = Encryptor(key)
 clear = lambda: os.system('cls')
 
 if os.path.isfile('data.txt.enc'):
