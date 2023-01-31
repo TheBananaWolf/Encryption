@@ -8,6 +8,8 @@ from os.path import isfile, join
 from Cryptodome import Random
 from Cryptodome.Cipher import AES
 import time
+import hashlib
+import base64
 
 
 class Encryptor:
@@ -64,8 +66,8 @@ class Encryptor:
         for file_name in dirs:
             self.decrypt_file(file_name)
       
-key = b'[EX\xc8\xda\xbfI{\xdc$\x75(\xd9\x48\xaf\xb3\x93)\x28nc\x64\x66)j\xbf\xac\xe8\x52\x5c(\x6a'
-enc = Encryptor(key)
+key = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest()
+enc = Encryptor( str.encode(key[0:32]))
 clear = lambda: os.system('cls')
 
 if os.path.isfile('data.txt.enc'):
