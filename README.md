@@ -1,4 +1,4 @@
 # Encryption
 Using AES-256 for encrytion files
-# Before Ruing the Program, Please install the Dependency First by Using Following command
+# Install the Dependency First
 pip3 install pycryptodomex
