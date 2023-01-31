@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-
-
 import os
 import os.path
 from os import listdir
@@ -9,8 +7,6 @@ from Cryptodome import Random
 from Cryptodome.Cipher import AES
 import time
 import hashlib
-import base64
-
 
 class Encryptor:
     def __init__(self, key):
@@ -26,11 +22,13 @@ class Encryptor:
         return iv + cipher.encrypt(message)
 
     def encrypt_file(self, file_name):
+        print("*****************************\nEncrypting file: "+str(file_name))
         with open(file_name, 'rb') as fo:
             plaintext = fo.read()
         enc = self.encrypt(plaintext, self.key)
         with open(file_name + ".enc", 'wb') as fo:
             fo.write(enc)
+            print("*****************************\nEncryption done for file: "+str(file_name))
         os.remove(file_name)
 
     def decrypt(self, ciphertext, key):
@@ -40,11 +38,13 @@ class Encryptor:
         return plaintext.rstrip(b"\0")
 
     def decrypt_file(self, file_name):
+        print("*****************************\nDecrypting file: "+str(file_name))
         with open(file_name, 'rb') as fo:
             ciphertext = fo.read()
         dec = self.decrypt(ciphertext, self.key)
         with open(file_name[:-4], 'wb') as fo:
             fo.write(dec)
+        print("*****************************\nDecryption done for file: "+str(file_name))
         os.remove(file_name)
 
     def getAllFiles(self):
@@ -114,6 +114,3 @@ else:
     enc.encrypt_file("data.txt")
     print("Please restart the program to complete the setup")
     time.sleep(1)
-
-
-
