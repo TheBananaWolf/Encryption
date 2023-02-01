@@ -23,7 +23,7 @@ class Encryptor:
         return iv + cipher.encrypt(message)
 
     def encrypt_file(self, file_name):
-        print("*****************************\nEncrypting file: "+str(file_name))
+        print("*****************************\nEncrypting file: "+str(file_name)+ " seconds")
         startTime = datetime.datetime.now()
         with open(file_name, 'rb') as fo:
             plaintext = fo.read()
@@ -32,7 +32,7 @@ class Encryptor:
             fo.write(enc)   
         os.remove(file_name)
         endTime = datetime.datetime.now()
-        print("*****************************\nEncryption done for file: "+ str(file_name) + " and the execution time is "+ str((endTime-startTime).seconds))
+        print("*****************************\nEncryption done for file: "+ str(file_name) + " and the execution time is "+ str((endTime-startTime).seconds)+ " seconds")
 
     def decrypt(self, ciphertext, key):
         iv = ciphertext[:AES.block_size]
@@ -41,7 +41,7 @@ class Encryptor:
         return plaintext.rstrip(b"\0")
 
     def decrypt_file(self, file_name):
-        print("*****************************\nDecrypting file: "+str(file_name))
+        print("*****************************\nDecrypting file: "+str(file_name)+ " seconds")
         startTime = datetime.datetime.now()
         with open(file_name, 'rb') as fo:
             ciphertext = fo.read()
@@ -50,7 +50,7 @@ class Encryptor:
             fo.write(dec)
         os.remove(file_name)
         endTime = datetime.datetime.now()
-        print("*****************************\nDecryption done for file: " + str(file_name) + " and the execution time is "+ str((endTime-startTime).seconds))
+        print("*****************************\nDecryption done for file: " + str(file_name) + " and the execution time is "+ str((endTime-startTime).seconds)+ " seconds")
 
     def getAllFiles(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -65,18 +65,24 @@ class Encryptor:
         startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
-            self.encrypt_file(file_name)
+            if(file_name == "Encrption_Windows.py"):
+                    continue
+            else:
+                self.encrypt_file(file_name)
         endTime = datetime.datetime.now()
-        print ("The total execution time is " + str((endTime - startTime).seconds))
+        print ("The total execution time is " + str((endTime - startTime).seconds)+ " seconds")
 
 
     def decrypt_all_files(self):
         startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
-            self.decrypt_file(file_name)
+            if(file_name == "Encrption_Windows.py"):
+                    continue
+            else:
+                self.decrypt_file(file_name)
         endTime = datetime.datetime.now()
-        print ("The total execution time is " + str((endTime - startTime).seconds))
+        print ("The total execution time is " + str((endTime - startTime).seconds) + " seconds")
 
 keys = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest() 
 key = bytes.fromhex(keys)
