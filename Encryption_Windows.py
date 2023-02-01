@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import os
 import os.path
+import datetime
 from os import listdir
 from os.path import isfile, join
 from Cryptodome import Random
@@ -23,13 +24,15 @@ class Encryptor:
 
     def encrypt_file(self, file_name):
         print("*****************************\nEncrypting file: "+str(file_name))
+        startTime = datetime.datetime.now()
         with open(file_name, 'rb') as fo:
             plaintext = fo.read()
         enc = self.encrypt(plaintext, self.key)
         with open(file_name + ".enc", 'wb') as fo:
             fo.write(enc)   
         os.remove(file_name)
-        print("*****************************\nEncryption done for file: "+str(file_name))
+        endTime = datetime.datetime.now()
+        print("*****************************\nEncryption done for file: "+ str(file_name) + " and the execution time is "+ str((endTime-startTime).seconds))
 
     def decrypt(self, ciphertext, key):
         iv = ciphertext[:AES.block_size]
@@ -39,13 +42,15 @@ class Encryptor:
 
     def decrypt_file(self, file_name):
         print("*****************************\nDecrypting file: "+str(file_name))
+        startTime = datetime.datetime.now()
         with open(file_name, 'rb') as fo:
             ciphertext = fo.read()
         dec = self.decrypt(ciphertext, self.key)
         with open(file_name[:-4], 'wb') as fo:
             fo.write(dec)
         os.remove(file_name)
-        print("*****************************\nDecryption done for file: "+str(file_name))
+        endTime = datetime.datetime.now()
+        print("*****************************\nDecryption done for file: " + str(file_name) + " and the execution time is "+ str((endTime-startTime).seconds))
 
     def getAllFiles(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -57,19 +62,27 @@ class Encryptor:
         return dirs
 
     def encrypt_all_files(self):
+        startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
             self.encrypt_file(file_name)
+        endTime = datetime.datetime.now()
+        print ("The total execution time is " + str((endTime - startTime).seconds))
+
 
     def decrypt_all_files(self):
+        startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
             self.decrypt_file(file_name)
-      
+        endTime = datetime.datetime.now()
+        print ("The total execution time is " + str((endTime - startTime).seconds))
+
 keys = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest() 
 key = bytes.fromhex(keys)
 enc = Encryptor(key)
 clear = lambda: os.system('cls')
+run = lambda: os.system("python .\Encryption_Windows.py")
 
 if os.path.isfile('data.txt.enc'):
     while True:
@@ -113,5 +126,8 @@ else:
     f.write(password)
     f.close()
     enc.encrypt_file("data.txt")
-    print("Please restart the program to complete the setup")
-    time.sleep(1)
+    clear()
+    print("The program will re-run after 5s and required for the same key which encrypted the data.txt file")
+    time.sleep(5)
+    clear()
+    run()
