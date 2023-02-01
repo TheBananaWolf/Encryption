@@ -76,7 +76,7 @@ class Encryptor:
         for file_name in dirs:
             self.decrypt_file(file_name)
         endTime = datetime.datetime.now()
-        print ("The total execution time is " + str((endTime - startTime).seconds) + " seconds")
+        print ("The total execution time is " + str((endTime - startTime)))
 
 keys = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest() 
 key = bytes.fromhex(keys)
