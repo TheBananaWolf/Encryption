@@ -23,7 +23,7 @@ class Encryptor:
         return iv + cipher.encrypt(message)
 
     def encrypt_file(self, file_name):
-        print("*****************************\nEncrypting file: "+str(file_name)+ " seconds")
+        print("*****************************\nEncrypting file: "+str(file_name))
         startTime = datetime.datetime.now()
         with open(file_name, 'rb') as fo:
             plaintext = fo.read()
@@ -41,7 +41,7 @@ class Encryptor:
         return plaintext.rstrip(b"\0")
 
     def decrypt_file(self, file_name):
-        print("*****************************\nDecrypting file: "+str(file_name)+ " seconds")
+        print("*****************************\nDecrypting file: "+str(file_name))
         startTime = datetime.datetime.now()
         with open(file_name, 'rb') as fo:
             ciphertext = fo.read()
@@ -57,7 +57,7 @@ class Encryptor:
         dirs = []
         for dirName, subdirList, fileList in os.walk(dir_path):
             for fname in fileList:
-                if (fname != 'script.py' and fname != 'data.txt.enc'):
+                if (fname != 'Encrption_Windows.py' and fname != 'data.txt.enc'):
                     dirs.append(dirName + "\\" + fname)
         return dirs
 
@@ -65,10 +65,7 @@ class Encryptor:
         startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
-            if(file_name == "Encrption_Windows.py"):
-                    continue
-            else:
-                self.encrypt_file(file_name)
+            self.encrypt_file(file_name)
         endTime = datetime.datetime.now()
         print ("The total execution time is " + str((endTime - startTime).seconds)+ " seconds")
 
@@ -77,10 +74,7 @@ class Encryptor:
         startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
-            if(file_name == "Encrption_Windows.py"):
-                    continue
-            else:
-                self.decrypt_file(file_name)
+            self.decrypt_file(file_name)
         endTime = datetime.datetime.now()
         print ("The total execution time is " + str((endTime - startTime).seconds) + " seconds")
 
