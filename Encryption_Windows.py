@@ -62,28 +62,21 @@ class Encryptor:
         return dirs
 
     def encrypt_all_files(self):
-        startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
             self.encrypt_file(file_name)
-        endTime = datetime.datetime.now()
-        print ("The total execution time is " + str((endTime - startTime).seconds)+ " seconds")
-
 
     def decrypt_all_files(self):
-        startTime = datetime.datetime.now()
         dirs = self.getAllFiles()
         for file_name in dirs:
             self.decrypt_file(file_name)
-        endTime = datetime.datetime.now()
-        print ("The total execution time is " + str((endTime - startTime)))
 
 keys = hashlib.sha256(input("Input the key: \n").encode('utf-8')).hexdigest() 
 key = bytes.fromhex(keys)
 enc = Encryptor(key)
 clear = lambda: os.system('cls')
 run = lambda: os.system("python .\Encryption_Windows.py")
-
+excutionTime = 0
 if os.path.isfile('data.txt.enc'):
     while True:
         password = str(input("Enter password: "))
@@ -97,17 +90,29 @@ if os.path.isfile('data.txt.enc'):
 
     while True:
         clear()
+        if excutionTime != 0:
+            print ("The total execution time is " + str((excutionTime)))
         choice = int(input(
             "1. Press '1' to encrypt file.\n2. Press '2' to decrypt file.\n3. Press '3' to Encrypt all files in the directory.\n4. Press '4' to decrypt all files in the directory.\n5. Press '5' to exit.\n"))
         clear()
         if choice == 1:
             enc.encrypt_file(str(input("Enter name of file to encrypt: ")))
+
         elif choice == 2:
             enc.decrypt_file(str(input("Enter name of file to decrypt: ")))
+
         elif choice == 3:
+            startTime = datetime.datetime.now()
             enc.encrypt_all_files()
+            endTime = datetime.datetime.now()
+            excutionTime = endTime - startTime
+
         elif choice == 4:
+            startTime = datetime.datetime.now()
             enc.decrypt_all_files()
+            endTime = datetime.datetime.now()
+            excutionTime = endTime - startTime
+
         elif choice == 5:
             exit()
         else:
